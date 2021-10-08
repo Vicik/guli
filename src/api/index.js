@@ -45,6 +45,23 @@ export const reqWeather = (city) => {
   });
 };
 
+// 获取商品分页列表
+export const reqProducts = (pageNum, pageSize) =>
+  ajax("manage/product/list", { pageNum, pageSize });
+
+// 搜索商品分页列表(根据商品名称/商品描述)
+// searchType: 搜索的类型, productName/productDesc
+export const reqSearchProducts = ({
+  pageNum,
+  pageSize,
+  searchName,
+  searchType,
+}) =>
+  ajax("manage/product/search", {
+    pageNum,
+    pageSize,
+    [searchType]: searchName,
+  });
 // 获取一级/二级分类的列表
 export const reqCategories = (parentId) =>
   ajax("manage/category/list", { parentId });
