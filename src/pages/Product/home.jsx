@@ -9,18 +9,34 @@ const { Option } = Select;
 export default class Home extends Component {
   state = {
     products: [{
+      pCategoryId: 0,
+      categoryId: 1,
       key: '1',
-      name: '胡彦斌',
-      price: 32,
+      name: '联想',
+      price: 3200,
       desc: '西湖区湖底公园1号',
-      status: 1
+      status: 1,
+      category: '电脑',
+      imgs: [
+        'https://tse2-mm.cn.bing.net/th/id/OIP-C.xsA-3qUw6cqmd8nRfxk6TQHaEK?w=326&h=183&c=7&r=0&o=5&dpr=1.5&pid=1.7',
+        'https://tse2-mm.cn.bing.net/th/id/OIP-C.xsA-3qUw6cqmd8nRfxk6TQHaEK?w=326&h=183&c=7&r=0&o=5&dpr=1.5&pid=1.7'
+      ],
+      detail: '<h3>商品</h3>'
     },
     {
+      pCategoryId: 0,
+      categoryId: 2,
       key: '2',
-      name: '胡彦祖',
-      price: 42,
+      name: '戴尔',
+      price: 3200,
       desc: '西湖区湖底公园1号',
-      status: 0
+      status: 1,
+      category: '电脑',
+      imgs: [
+        'https://tse2-mm.cn.bing.net/th/id/OIP-C.xsA-3qUw6cqmd8nRfxk6TQHaEK?w=326&h=183&c=7&r=0&o=5&dpr=1.5&pid=1.7',
+        'https://tse2-mm.cn.bing.net/th/id/OIP-C.xsA-3qUw6cqmd8nRfxk6TQHaEK?w=326&h=183&c=7&r=0&o=5&dpr=1.5&pid=1.7'
+      ],
+      detail: '<h3>商品</h3>'
     }], // 商品的数组
     total: 0,
     searchName: '', // 关键字
@@ -58,10 +74,10 @@ export default class Home extends Component {
       {
         title: '操作',
         width: 100,
-        render: () => {
+        render: (product) => {
           return (
             <span>
-              <LinkButton>详情</LinkButton>
+              <LinkButton onClick={()=> this.props.history.push('/admin/product/detail',product)}>详情</LinkButton>
               <LinkButton>修改</LinkButton>
             </span>
           )
@@ -71,6 +87,7 @@ export default class Home extends Component {
   }
   // 获取指定页码的列表数据显示
   getProducts = async (pageNum) => {
+    this.pageNum = pageNum;
     const { searchName, searchType } = this.state;
     let result = '';
     if(searchName) {
@@ -107,7 +124,7 @@ export default class Home extends Component {
       </span>
     )
     const extra = (
-      <Button type="primary"><PlusOutlined />添加商品</Button>
+      <Button type="primary" onClick={() => this.props.history.push('/admin/product/addUpdate')}><PlusOutlined />添加商品</Button>
     )
     return (
       <Card title={title} extra={extra}>
@@ -117,7 +134,8 @@ export default class Home extends Component {
           {
             defaultPageSize: PAGE_SIZE,
             total: total, 
-            onChange: this.getProducts}
+            onChange: this.getProducts
+          }
         }
         ></Table>
       </Card>

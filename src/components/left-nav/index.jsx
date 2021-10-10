@@ -11,7 +11,7 @@ const { SubMenu } = Menu;
 
 class LeftNav extends Component {
   getMenuNodes = () => {
-    const path1 = this.props.location.pathname
+    const path = this.props.location.pathname
     return menuList.map(menu => {
       let icon = ''
       if(!menu.children) {
@@ -21,7 +21,7 @@ class LeftNav extends Component {
         </Menu.Item>
       }else{
         // 查找一个与当前请求路径匹配的子Item
-        const cItem = menu.children.find(cItem => cItem.path === path1)
+        const cItem = menu.children.find(cItem => path.indexOf(cItem.path) == 0)
         // 如果存在，说明当前menu的子列表需要展开
         if(cItem) {
           this.openKey = menu.path
@@ -46,7 +46,10 @@ class LeftNav extends Component {
   }
   render(){
     // 得到当前请求的路由路径
-    const path = this.props.location.pathname
+    let path = this.props.location.pathname;
+    if(path.indexOf('/admin/product') === 0) { // 说明当前页面是商品或商品子路由
+      path = '/admin/product';
+    }
     const openKey = this.openKey
     return (
       <div className="left-nav">

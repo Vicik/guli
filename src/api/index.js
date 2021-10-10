@@ -63,8 +63,10 @@ export const reqSearchProducts = ({
     [searchType]: searchName,
   });
 // 获取一级/二级分类的列表
-export const reqCategories = (parentId) =>
-  ajax("manage/category/list", { parentId });
+export const reqCategories = (parentId) => ajax("manage/category/list", { parentId });
+
+// 根据ID获取分类
+export const reqCategory = (categoryId) => ajax("manage/category/info", {categoryId})
 // 添加分类
 export const reqAddCategory = ({ categoryName, parentId }) =>
   ajax("/manage/category/add", { categoryName, parentId }, "POST");
